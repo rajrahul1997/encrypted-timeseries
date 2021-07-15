@@ -1,8 +1,8 @@
 {
   "name": "encrypted-timeseries",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Small backend application using socket.io for emitter and listner service and save data in Time series db",
+  "main": "listner.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,5 +11,18 @@
     "url": "https://github.com/rajrahul1997/encrypted-timeseries"
   },
   "author": "Rahul",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cipher": "^0.0.0",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.2",
+    "js-sha256": "^0.9.0",
+    "mongoose": "^5.13.2",
+    "socket.io": "^4.1.3",
+    "socket.io-client": "^4.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
 }
