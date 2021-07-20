@@ -1,9 +1,8 @@
 const io = require("socket.io-client");
 var socket = io('http://localhost:3000'); 
 var sha256 = require('js-sha256')
-var crypto = require('crypto'),
-    algorithm = 'aes-256-ctr',
-    password = 'raj123';
+const {randomIntFromInterval} = require('../utils/utils')
+const {encrypt} = require('../utils/encryption')
 
 // var message = document.getElementById('msg');
 //     handle = document.getElementById('handle');
@@ -21,13 +20,14 @@ var crypto = require('crypto'),
 // output.innerHTML += '<p><strong>' + originalMessage.handle + ': </strong>' + originalMessage.message + '</p>';
 // })
 
-
 var data = require('../data.json')
 
 function senddata(){
-    var max1= data.names.length
-    var max2 = data.cities.length
-    // console.log(max1, max2)
+    var maximumlen = randomIntFromInterval(49,499)
+    let encryptedarray = [];
+    for(let i = 49;i<=maximumlen;i++){
+        var max1= data.names.length
+        var max2 = data.cities.length
     function value(max) {
         return Math.floor(Math.random() * max);
     }
@@ -38,18 +38,14 @@ function senddata(){
     }
     let hash = sha256(JSON.stringify(originalMessage))
     originalMessage["secret_key"] = hash
-    // console.log(originalMessage)
-    
-    function encrypt(text){
-        var cipher = crypto.createCipher(algorithm,password)
-        var crypted = cipher.update(text,'utf8','hex')
-        crypted += cipher.final('hex');
-        return crypted;
-    }
-    //console.log(encrypt(JSON.stringify(originalMessage)))
+    // console.log(originalMessage);
     let encryptedMessage = encrypt(JSON.stringify(originalMessage))
-    // console.log(encryptedMessage)
-
-    socket.emit('encryptedMessage', encryptedMessage);
+    encryptedarray.push(encryptedMessage) 
+}
+    // console.log(encryptedarray);
+    // console.log(encryptedarray.join('|'))
+    var datastream = encryptedarray.join('|');
+    console.log(datastream)
+    socket.emit('datastream', datastream);
 }
 setInterval(senddata,10000)
