@@ -33,33 +33,47 @@ db.once('open', () => console.log('connected to database'))
 var io = socket(server);
 io.on('connection',function (socket){
     // console.log("Socket Connection",socket.id);
-    socket.on('datastream',   async function decrypt(datastream){
-        var datastreamsubstring = datastream.split('|');
-        var databasedocument = [];
-        for (let eachmessage of datastreamsubstring){
-            var decipher = crypto.createDecipher(algorithm,password)
-            var dec = decipher.update(eachmessage,'hex','utf8')
-            dec += decipher.final('utf8');
-            dec = JSON.parse(dec)
-            var checkobj = {}
-            checkobj['name'] =dec.name;
-            checkobj['origin'] =dec.origin;
-            checkobj['destination'] =dec.destination;
-            let hash = sha256(JSON.stringify(checkobj))
-            console.log(compare(hash, dec.secret_key))
-            var d = new Date()
-            var m = d.getMinutes()
-            if(m !=m+1){
-                databasedocument.push(checkobj)
+    try {
+        socket.on('datastream',   async function decrypt(datastream){
+            var datastreamsubstring = datastream.split('|');
+            var databasedocument = [];
+            for (let eachmessage of datastreamsubstring){
+                var decipher = crypto.createDecipher(algorithm,password)
+                var dec = decipher.update(eachmessage,'hex','utf8')
+                dec += decipher.final('utf8');
+                dec = JSON.parse(dec)
+                var checkobj = {}
+                checkobj['name'] =dec.name;
+                checkobj['origin'] =dec.origin;
+                checkobj['destination'] =dec.destination;
+                var hash = sha256(JSON.stringify(checkobj))
+                // console.log(compare(hash, dec.secret_key))
+                var sucessrate = compare(hash, dec.secret_key)
+                console.log(sucessrate)
+                var d = new Date()
+                var m = d.getMinutes()
+                if(m !=m+1){
+                    databasedocument.push(checkobj)
+                }
+                var data = JSON.stringify(databasedocument)
+                const t = new Date()
+                var timestamp = Math.floor(t.getTime() / 60000)
+                var message = {}
+                message['data'] = data
+                message['timestamp'] = timestamp
             }
-            var data = JSON.stringify(databasedocument)
-            const t = new Date()
-            var timestamp = Math.floor(t.getTime() / 60000)
-            var message = {}
-            message['data'] = data
-            message['timestamp'] = timestamp
-        }
-        console.log(message)
-        var result = await Message.create(message);
-    }) 
+            console.log(message)
+            var result = await Message.create(message);
+            // setInterval(socket.emit(result,sucessrate),100)
+        })
+    }catch (e) {
+        console.log(e);
+        return res.status(500).json({error: 'Server Error!'});
+    }
+    
 });
+
+// function frontend(){
+//     socket.emit(message,sucessrate)
+// }
+// setInterval(frontend,100)
