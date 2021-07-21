@@ -2,19 +2,29 @@
 <html lang="en">
     <head>
         <title>Encrypted-Timeseries Application</title>
+        <body>
+            <h1 id="heading ">Encrypted-Timeseries Application</h1>
+            <div id="timestamp"></div>
+            <pre id="result"></pre>
+        </body>
         <script type='module' src="emmiter.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
+            const result = document.getElementById('result')
+            const name = document.getElementById('name');
             const socket = io("http://localhost:3000");
             socket.on("connect", () => {
                 console.log(socket.id); 
             });
             socket.on("Frontend_Topic", (...args) => {
-             console.log(...args)
+            //  console.log(args)
+            const data = args[0].result.data
+            console.log(data)
+            result.innerHTML = data
+            timestamp.innerHTML = args[0].result.timestamp
+            //  name.innerHTML = data[0].name;
             });
         </script>
     </head>
-    <body>
-        <h1 id="heading ">welcome to Application</h1>
-    </body>
+    
 </html>
