@@ -31,6 +31,7 @@ db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('connected to database'))
 
 var io = socket(server);
+var lastminute = undefined;
 io.on('connection',function (socket){
     console.log("Socket Connection",socket.id);
     try {
@@ -50,9 +51,10 @@ io.on('connection',function (socket){
                 var sucessrate = compare(hash, dec.secret_key)
                 var d = new Date()
                 var m = d.getMinutes()
-                if(m !=m+1){
-                    databasedocument.push(checkobj)
+                if (lastminute == undefined){
+                    lastminute = m
                 }
+                databasedocument.push(checkobj)
                 var data = JSON.stringify(databasedocument)
                 const t = new Date()
                 var timestamp = Math.floor(t.getTime() / 60000)
@@ -60,8 +62,11 @@ io.on('connection',function (socket){
                 message['data'] = data
                 message['timestamp'] = timestamp
             }
-            console.log(message)
-            var result = await Message.create(message);
+            if(lastminute !== m){
+                var result = await Message.create(message);
+                lastminute = m;
+            }
+            console.log(result)
             io.emit('Frontend_Topic',{result,sucessrate})
         })
     }catch (e) {

@@ -5,6 +5,7 @@
         <body>
             <h1 id="heading ">Encrypted-Timeseries Application</h1>
             <div id="timestamp"></div>
+            <div id= "successrate"></div>
             <pre id="result"></pre>
         </body>
         <script type='module' src="emmiter.js"></script>
@@ -22,6 +23,7 @@
             console.log(data)
             result.innerHTML = data
             timestamp.innerHTML = args[0].result.timestamp
+            // sucessrate.innerHTML = args[0].sucessrate
             //  name.innerHTML = data[0].name;
             });
         </script>
