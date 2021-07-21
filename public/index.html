@@ -18,9 +18,9 @@
                 console.log(socket.id); 
             });
             socket.on("Frontend_Topic", (...args) => {
-            //  console.log(args)
+            // console.log(sucessrate)
             const data = args[0].result.data
-            console.log(data)
+            // console.log(data)
             result.innerHTML = data
             timestamp.innerHTML = args[0].result.timestamp
             // sucessrate.innerHTML = args[0].sucessrate

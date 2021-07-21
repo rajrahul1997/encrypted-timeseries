@@ -3,15 +3,10 @@ var socket = require('socket.io');
 const Message = require('./models/message').Message;
 const mongoose = require('mongoose')
 const {compare} = require('./utils/utils')
-const {encrypt} = require('./utils/encryption')
 var sha256 = require('js-sha256')
 var crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
     password = 'raj123';
-
-// const http = require('http');
-// const server = http.createServer(app);
-// const { Server } = require("socket.io");
 
 var app = express();
 var server = app.listen(3000, function () {

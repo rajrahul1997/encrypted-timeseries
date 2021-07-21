@@ -4,22 +4,6 @@ var sha256 = require('js-sha256')
 const {randomIntFromInterval} = require('../utils/utils')
 const {encrypt} = require('../utils/encryption')
 
-// var message = document.getElementById('msg');
-//     handle = document.getElementById('handle');
-//     btn = document.getElementById('send');
-//     output = document.getElementById('output');
-
-//     btn.addEventListener('click', function(){
-//         socket.emit('encryptedMessage ', {
-//             message: message.value,
-//             handle: handle.value
-//         });
-//       });
-
-// socket.on('encryptedMessage ',function(originalMessage){
-// output.innerHTML += '<p><strong>' + originalMessage.handle + ': </strong>' + originalMessage.message + '</p>';
-// })
-
 var data = require('../data.json')
 
 function senddata(){
