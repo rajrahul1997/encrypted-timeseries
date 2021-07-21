@@ -43,7 +43,6 @@ function senddata(){
     encryptedarray.push(encryptedMessage) 
 }
     // console.log(encryptedarray);
-    // console.log(encryptedarray.join('|'))
     var datastream = encryptedarray.join('|');
     console.log(datastream)
     socket.emit('datastream', datastream);

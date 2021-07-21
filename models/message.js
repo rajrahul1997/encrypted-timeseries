@@ -1,16 +1,8 @@
 const mongoose = require('mongoose');
 const Message = mongoose.model('Message', new mongoose.Schema({
-    name: {
+    data:{
         type: String,
-        required: true, 
-    },
-    origin: {
-        type: String,
-        required: true,   
-    },
-    destination: {
-        type: String,
-        required: true
+        required: true,
     },
     timestamp: {
         type: String,
