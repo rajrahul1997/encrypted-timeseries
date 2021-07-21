@@ -38,11 +38,9 @@ function senddata(){
     }
     let hash = sha256(JSON.stringify(originalMessage))
     originalMessage["secret_key"] = hash
-    // console.log(originalMessage);
     let encryptedMessage = encrypt(JSON.stringify(originalMessage))
     encryptedarray.push(encryptedMessage) 
 }
-    // console.log(encryptedarray);
     var datastream = encryptedarray.join('|');
     console.log(datastream)
     socket.emit('datastream', datastream);

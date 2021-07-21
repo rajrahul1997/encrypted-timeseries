@@ -6,6 +6,12 @@
         <script src="/socket.io/socket.io.js"></script>
         <script>
             const socket = io("http://localhost:3000");
+            socket.on("connect", () => {
+                console.log(socket.id); 
+            });
+            socket.on("Frontend_Topic", (...args) => {
+             console.log(...args)
+            });
         </script>
     </head>
     <body>

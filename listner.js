@@ -32,7 +32,7 @@ db.once('open', () => console.log('connected to database'))
 
 var io = socket(server);
 io.on('connection',function (socket){
-    // console.log("Socket Connection",socket.id);
+    console.log("Socket Connection",socket.id);
     try {
         socket.on('datastream',   async function decrypt(datastream){
             var datastreamsubstring = datastream.split('|');
@@ -47,9 +47,7 @@ io.on('connection',function (socket){
                 checkobj['origin'] =dec.origin;
                 checkobj['destination'] =dec.destination;
                 var hash = sha256(JSON.stringify(checkobj))
-                // console.log(compare(hash, dec.secret_key))
                 var sucessrate = compare(hash, dec.secret_key)
-                console.log(sucessrate)
                 var d = new Date()
                 var m = d.getMinutes()
                 if(m !=m+1){
@@ -64,16 +62,10 @@ io.on('connection',function (socket){
             }
             console.log(message)
             var result = await Message.create(message);
-            // setInterval(socket.emit(result,sucessrate),100)
+            io.emit('Frontend_Topic',{result,sucessrate})
         })
     }catch (e) {
         console.log(e);
         return res.status(500).json({error: 'Server Error!'});
     }
-    
 });
-
-// function frontend(){
-//     socket.emit(message,sucessrate)
-// }
-// setInterval(frontend,100)
