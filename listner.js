@@ -20,7 +20,7 @@ var server = app.listen(3000, function () {
 
 app.use(express.static('public'));
 
-mongoose.connect('mongodb://127.0.0.1', { useNewUrlParser: true, 
+mongoose.connect('mongodb://mongo', { useNewUrlParser: true, 
   useUnifiedTopology: true, 
   useCreateIndex: true,
   autoIndex: true
